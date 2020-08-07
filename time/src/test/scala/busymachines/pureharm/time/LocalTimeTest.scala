@@ -8,9 +8,19 @@ import busymachines.pureharm.time.implicits._
 class LocalTimeTest extends PureharmTest {
 
   test("LocalTime - show") {
+    val value = "09:03:32.458458"
     for {
-      lt <- LocalTime.now[IO]
-      _  <- testLogger.info(lt.show)
-    } yield succeed
+      lt <- LocalTime.parse[IO](value)
+      seen = lt.show
+    } yield assert(value == seen)
+  }
+
+  test("LocalTime - show now"){
+    for {
+     now <- LocalTime.now[IO]
+     value = now.show
+      lt <- LocalTime.parse[IO](value)
+      seen = lt.show
+    } yield assert(value == seen)
   }
 }

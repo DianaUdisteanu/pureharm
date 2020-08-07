@@ -1,7 +1,10 @@
 package busymachines.pureharm.time
 
-import cats.Show
+import busymachines.pureharm.effects.Show
+import busymachines.pureharm.internals.time.TimeConfiguration
 
 trait PureharmTimeImplicits {
-  implicit val localTimeShow: Show[LocalTime] = busymachines.pureharm.internals.time.LocalTime.showLocalTime
+  implicit def defaultPureharmTimeConfiguration : TimeConfiguration = TimeConfiguration.utcTimeConfiguration
+
+  implicit def showLocalTime(implicit config :TimeConfiguration): Show[busymachines.pureharm.time.LocalTime] = busymachines.pureharm.internals.time.LocalTime.showLocalTime(config)
 }
