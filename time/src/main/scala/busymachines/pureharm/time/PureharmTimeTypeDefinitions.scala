@@ -8,4 +8,7 @@ trait PureharmTimeTypeDefinitions {
 
   type LocalDate = jt.LocalDate
   val LocalDate = busymachines.pureharm.internals.time.LocalDate
+
+  type LocalDateTime = jt.LocalDateTime
+  val LocalDateTime = busymachines.pureharm.internals.time.LocalDateTime
 }

@@ -13,7 +13,8 @@ object LocalDate {
 
   implicit val localDateEq : cats.Eq[jt.LocalDate] = cats.Eq.fromUniversalEquals[jt.LocalDate]
 
-  //implicit val localDateOrder : cats.Order[jt.LocalDate] = cats.Order.fromComparable[jt.LocalDate]
+ def toLocalDateTime(localDate: jt.LocalDate)(implicit config: TimeConfiguration): jt.LocalDateTime =
+   localDate.atTime(jt.LocalTime)
 
   implicit def showLocalDate(implicit config: TimeConfiguration): Show[busymachines.pureharm.time.LocalDate] = Show.show(_.format(config.localDateFormat))
 }

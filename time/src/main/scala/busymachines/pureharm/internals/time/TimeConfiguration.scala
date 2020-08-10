@@ -13,7 +13,8 @@ Or if you mixt in the pureharm time traits it should be available in your projec
 final case class TimeConfiguration(
   zoneId:          jt.ZoneId,
   localTimeFormat: jt.format.DateTimeFormatter,
-  localDateFormat: jt.format.DateTimeFormatter
+  localDateFormat: jt.format.DateTimeFormatter,
+  localDateTimeFormat: jt.format.DateTimeFormatter,
 )
 
 object TimeConfiguration {
@@ -23,6 +24,7 @@ object TimeConfiguration {
       zoneId          = Timezones.UTC,
       localTimeFormat = jt.format.DateTimeFormatter.ISO_LOCAL_TIME,
       localDateFormat = jt.format.DateTimeFormatter.ISO_LOCAL_DATE,
+      localDateTimeFormat = jt.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME,
     )
 
 }
