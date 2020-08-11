@@ -11,10 +11,10 @@ object LocalDate {
   def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalDate] =
     ApplicativeAttempt[F].catchNonFatal(jt.LocalDate.parse(s, config.localDateFormat))
 
+  //TODO: see solution for cats.PartialOrder
   implicit val localDateEq : cats.Eq[jt.LocalDate] = cats.Eq.fromUniversalEquals[jt.LocalDate]
 
- //def toLocalDateTime(localDate: jt.LocalDate)(implicit config: TimeConfiguration): jt.LocalDateTime =
-   //localDate.atTime(jt.LocalTime)
+  implicit val localDateOrdering : scala.Ordering[jt.LocalDate] = scala.Ordering.by(_.toEpochDay)
 
   implicit def showLocalDate(implicit config: TimeConfiguration): Show[busymachines.pureharm.time.LocalDate] = Show.show(_.format(config.localDateFormat))
 }
