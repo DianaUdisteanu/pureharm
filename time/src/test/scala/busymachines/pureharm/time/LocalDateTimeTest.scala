@@ -1,12 +1,11 @@
-package busymachines.pureharm.timeimport
+package busymachines.pureharm.time
 import busymachines.pureharm.testkit._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
-import busymachines.pureharm.internals.time.{LocalDateTime, LocalTime}
 import busymachines.pureharm.time.implicits._
 
 
-class LocalDateTimeTest extends  PureharmTest {
+class LocalDateTimeTest extends PureharmTest {
 
   test("LocalDateTime - show") {
     val value = "2020-08-10T12:11:30"

@@ -11,4 +11,6 @@ trait PureharmTimeImplicits {
   implicit def showLocalDate(implicit config: TimeConfiguration): Show[busymachines.pureharm.time.LocalDate] = busymachines.pureharm.internals.time.LocalDate.showLocalDate(config)
 
   implicit def showLocalDateTime(implicit config: TimeConfiguration): Show[busymachines.pureharm.time.LocalDateTime] = busymachines.pureharm.internals.time.LocalDateTime.showLocalDateTime(config)
+
+  implicit def showOffsetDateTime(implicit config: TimeConfiguration): Show[busymachines.pureharm.time.OffsetDateTime] = busymachines.pureharm.internals.time.OffsetDateTime.showOffsetDateTime(config)
 }

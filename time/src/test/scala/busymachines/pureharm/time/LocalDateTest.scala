@@ -1,5 +1,4 @@
 package busymachines.pureharm.time
-
 import busymachines.pureharm.testkit._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
@@ -24,7 +23,7 @@ class LocalDateTest extends PureharmTest {
     } yield assert(value == seen)
   }
 
-  test("LocalDate - toLocalDateTime"){
+  /*test("LocalDate - toLocalDateTime"){
     for{
       now <- LocalDate.now[IO]
       value = now.show
@@ -33,5 +32,5 @@ class LocalDateTest extends PureharmTest {
       ldt <- LocalDateTime.now[IO]
       see = ldt.show
     }yield  assert(see == seen)
-  }
+  }*/
 }

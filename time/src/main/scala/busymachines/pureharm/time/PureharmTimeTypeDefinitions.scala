@@ -11,4 +11,7 @@ trait PureharmTimeTypeDefinitions {
 
   type LocalDateTime = jt.LocalDateTime
   val LocalDateTime = busymachines.pureharm.internals.time.LocalDateTime
+
+  type OffsetDateTime = jt.OffsetDateTime
+  val OffsetDateTime = busymachines.pureharm.internals.time.OffsetDateTime
 }

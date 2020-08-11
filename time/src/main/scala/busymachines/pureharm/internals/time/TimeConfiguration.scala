@@ -15,6 +15,7 @@ final case class TimeConfiguration(
   localTimeFormat: jt.format.DateTimeFormatter,
   localDateFormat: jt.format.DateTimeFormatter,
   localDateTimeFormat: jt.format.DateTimeFormatter,
+  offsetDateTimeFormat: jt.format.DateTimeFormatter,
 )
 
 object TimeConfiguration {
@@ -25,6 +26,7 @@ object TimeConfiguration {
       localTimeFormat = jt.format.DateTimeFormatter.ISO_LOCAL_TIME,
       localDateFormat = jt.format.DateTimeFormatter.ISO_LOCAL_DATE,
       localDateTimeFormat = jt.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME,
+      offsetDateTimeFormat = jt.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME,
     )
 
 }
