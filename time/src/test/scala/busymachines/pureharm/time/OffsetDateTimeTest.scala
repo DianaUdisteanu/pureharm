@@ -23,4 +23,34 @@ class OffsetDateTimeTest extends PureharmTest{
       seen = odt.show
     } yield assert(value == seen)
   }
+
+  /*test("OffsetDateTime - toLocalDateTime"){
+    for{
+      now <- OffsetDateTime.now[IO]
+      ldt <- OffsetDateTime.toLocalDateTime[IO](now)
+      seen = ldt.show
+      localDateTime <- LocalDateTime.now[IO]
+      value = localDateTime.show
+    }yield assert(value == seen)
+  }*/
+
+  test("OffsetDateTime - toLocalDate"){
+    for{
+      now <- OffsetDateTime.now[IO]
+      ldt <- OffsetDateTime.toLocalDate[IO](now)
+      seen = ldt.show
+      localDate <- LocalDate.now[IO]
+     value = localDate.show
+    }yield assert(value == seen)
+  }
+
+ /* test("OffsetDateTime - toLocalTime"){
+    for{
+      now <- OffsetDateTime.now[IO]
+      ldt <- OffsetDateTime.toLocalTime[IO](now)
+      seen = ldt.show
+      localTime <- LocalTime.now[IO]
+      value = localTime.show
+    }yield assert(value == seen)
+  }*/
 }

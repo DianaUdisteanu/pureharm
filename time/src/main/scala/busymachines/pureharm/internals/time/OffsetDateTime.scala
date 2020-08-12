@@ -1,4 +1,7 @@
 package busymachines.pureharm.internals.time
+import java.time.chrono.ChronoLocalDateTime
+import java.time.temporal.ChronoUnit
+
 import busymachines.pureharm.effects._
 import java.{time => jt}
 
@@ -10,6 +13,15 @@ object OffsetDateTime {
   //TODO: adapt error e.g TimeFormatException in TimeFormatAnomaly
   def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.OffsetDateTime] =
     ApplicativeAttempt[F].catchNonFatal(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))
+
+  //def toLocalDateTime[F[_] : Sync](offsetDateTime: jt.OffsetDateTime)(implicit config : TimeConfiguration): F[jt.LocalDateTime] =
+    //Sync[F].delay(offsetDateTime.atZoneSimilarLocal(config.zoneId).toLocalDateTime.truncatedTo(ChronoUnit.SECONDS))
+
+  def toLocalDate[F[_] : Sync](offsetDateTime: jt.OffsetDateTime) : F[jt.LocalDate] =
+    Sync[F].delay(offsetDateTime.toLocalDate)
+
+  //def toLocalTime[F[_] : Sync](offsetDateTime: jt.OffsetDateTime)(implicit config: TimeConfiguration) : F[jt.LocalTime] =
+    //Sync[F].delay(offsetDateTime.atZoneSimilarLocal(config.zoneId).toLocalTime)
 
   //TODO: see solution for cats.PartialOrder
   implicit val offsetDateTimeEq : cats.Eq[jt.OffsetDateTime] = cats.Eq.fromUniversalEquals[jt.OffsetDateTime]
