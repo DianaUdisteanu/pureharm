@@ -1,7 +1,7 @@
 package busymachines.pureharm.time
-import busymachines.pureharm.testkit._
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
+import busymachines.pureharm.testkit._
 import busymachines.pureharm.time.implicits._
 
 
