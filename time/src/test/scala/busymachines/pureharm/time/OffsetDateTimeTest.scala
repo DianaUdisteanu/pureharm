@@ -24,15 +24,15 @@ class OffsetDateTimeTest extends PureharmTest{
     } yield assert(value == seen)
   }
 
-  /*test("OffsetDateTime - toLocalDateTime"){
+  test("OffsetDateTime - toLocalDateTime"){
     for{
       now <- OffsetDateTime.now[IO]
       ldt <- OffsetDateTime.toLocalDateTime[IO](now)
-      seen = ldt.show
-      localDateTime <- LocalDateTime.now[IO]
-      value = localDateTime.show
+      odt <- LocalDateTime.toOffsetDateTime[IO](ldt)
+      value = now.show
+      seen = odt.show
     }yield assert(value == seen)
-  }*/
+  }
 
   test("OffsetDateTime - toLocalDate"){
     for{
@@ -40,17 +40,17 @@ class OffsetDateTimeTest extends PureharmTest{
       ldt <- OffsetDateTime.toLocalDate[IO](now)
       seen = ldt.show
       localDate <- LocalDate.now[IO]
-     value = localDate.show
+      value = localDate.show
     }yield assert(value == seen)
   }
 
- /* test("OffsetDateTime - toLocalTime"){
+  test("OffsetDateTime - toLocalTime"){
     for{
       now <- OffsetDateTime.now[IO]
       ldt <- OffsetDateTime.toLocalTime[IO](now)
-      seen = ldt.show
-      localTime <- LocalTime.now[IO]
-      value = localTime.show
+      seen = now.show
+      lt  <- LocalTime.toOffsetDateTime[IO](ldt)
+      value = lt.show
     }yield assert(value == seen)
-  }*/
+  }
 }

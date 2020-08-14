@@ -25,11 +25,11 @@ class LocalDateTest extends PureharmTest {
 
   /*test("LocalDate - toLocalDateTime"){
     for{
-      nw <- LocalDate.now[IO]
-      lt = LocalDate.toLocalDateTime(nw)
+      now <- LocalDate.now[IO]
+      lt <- LocalDate.toLocalDateTime[IO](now)
+      x = lt.toLocalDate
+      value = x.show
       seen = lt.show
-      ldt <- LocalDateTime.now[IO]
-      see = ldt.show
-    }yield  assert(see == seen)
+    }yield  assert(value == seen)
   }*/
 }

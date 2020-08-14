@@ -7,11 +7,15 @@ object LocalDateTime {
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.LocalDateTime] =
     Sync[F].delay(jt.LocalDateTime.now(config.zoneId))
 
-  //TODO: adapt error e.g TimeFormatException in TimeFormatAnomaly
   def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalDateTime] =
     ApplicativeAttempt[F].catchNonFatal(jt.LocalDateTime.parse(s, config.localDateTimeFormat))
 
-  //TODO: see solution for cats.PartialOrder
+  def toOffsetDateTime[F[_] : Sync](localDateTime: jt.LocalDateTime)(implicit config: TimeConfiguration) : F[jt.OffsetDateTime] =
+    Sync[F].delay(localDateTime.atZone(config.zoneId).toOffsetDateTime)
+
+  def toLocalTime[F[_] : Sync](localDateTime: jt.LocalDateTime) : F[jt.LocalTime] =
+    Sync[F].delay(localDateTime.toLocalTime)
+
   implicit val localDateTimeEq : cats.Eq[jt.LocalDateTime] = cats.Eq.fromUniversalEquals[jt.LocalDateTime]
 
   implicit val localDateTimeOrdering : scala.Ordering[jt.LocalDateTime] = scala.Ordering.by(_.toLocalDate)
