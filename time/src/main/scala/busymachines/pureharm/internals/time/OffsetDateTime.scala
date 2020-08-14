@@ -11,6 +11,9 @@ object OffsetDateTime {
   def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.OffsetDateTime] =
     ApplicativeAttempt[F].catchNonFatal(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))
 
+  def addFiniteDuration[F[_] : Sync](duration: Duration, offsetDateTime: jt.OffsetDateTime) : F[jt.OffsetDateTime] =
+    Sync[F].delay(offsetDateTime.plusNanos(duration.toNanos))
+
   def toLocalDateTime[F[_] : Sync](offsetDateTime: jt.OffsetDateTime): F[jt.LocalDateTime] =
     Sync[F].delay(offsetDateTime.toLocalDateTime)
 

@@ -1,11 +1,13 @@
 package busymachines.pureharm.time
 
-import busymachines.pureharm.testkit.PureharmTest
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
+import busymachines.pureharm.testkit.PureharmTest
 import busymachines.pureharm.time.implicits._
 
-class OffsetDateTimeTest extends PureharmTest{
+import scala.concurrent.duration._
+
+class OffsetDateTimeTest extends PureharmTest {
 
   test("OffsetDateTime - show") {
     val value = "2020-08-11T10:15:00Z"
@@ -15,7 +17,7 @@ class OffsetDateTimeTest extends PureharmTest{
     } yield assert(value == seen)
   }
 
-  test("OffsetDateTime - show now"){
+  test("OffsetDateTime - show now") {
     for {
       now <- OffsetDateTime.now[IO]
       value = now.show
@@ -24,33 +26,42 @@ class OffsetDateTimeTest extends PureharmTest{
     } yield assert(value == seen)
   }
 
-  test("OffsetDateTime - toLocalDateTime"){
-    for{
+  test("OffsetDateTime - toLocalDateTime") {
+    for {
       now <- OffsetDateTime.now[IO]
       ldt <- OffsetDateTime.toLocalDateTime[IO](now)
       odt <- LocalDateTime.toOffsetDateTime[IO](ldt)
       value = now.show
       seen = odt.show
-    }yield assert(value == seen)
+    } yield assert(value == seen)
   }
 
-  test("OffsetDateTime - toLocalDate"){
-    for{
+  test("OffsetDateTime - toLocalDate") {
+    for {
       now <- OffsetDateTime.now[IO]
       ldt <- OffsetDateTime.toLocalDate[IO](now)
       seen = ldt.show
       localDate <- LocalDate.now[IO]
       value = localDate.show
-    }yield assert(value == seen)
+    } yield assert(value == seen)
   }
 
-  test("OffsetDateTime - toLocalTime"){
-    for{
+  test("OffsetDateTime - toLocalTime") {
+    for {
       now <- OffsetDateTime.now[IO]
       ldt <- OffsetDateTime.toLocalTime[IO](now)
       seen = now.show
-      lt  <- LocalTime.toOffsetDateTime[IO](ldt)
+      lt <- LocalTime.toOffsetDateTime[IO](ldt)
       value = lt.show
-    }yield assert(value == seen)
+    } yield assert(value == seen)
+  }
+
+  test("OffsetDateTime - add finite duration") {
+    for {
+      now <- OffsetDateTime.now[IO]
+      finite <- OffsetDateTime.addFiniteDuration[IO](Duration("3 hours"), now)
+      value = now.show
+      seen = finite.show
+    } yield assert(value < seen)
   }
 }
