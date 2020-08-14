@@ -28,9 +28,9 @@ class LocalDateTimeTest extends PureharmTest {
     for{
        now <- LocalDateTime.now[IO]
        odt <- LocalDateTime.toOffsetDateTime[IO](now)
-       seen = odt.show
-       offsetDateTime <- OffsetDateTime.now[IO]
-       value = offsetDateTime.show
+       ldt <- OffsetDateTime.toLocalDateTime[IO](odt)
+       value = now.show
+       seen = ldt.show
     }yield assert(value == seen)
   }
 
@@ -38,9 +38,9 @@ class LocalDateTimeTest extends PureharmTest {
     for{
        now <- LocalDateTime.now[IO]
        lt <- LocalDateTime.toLocalTime[IO](now)
-       seen = lt.show
-       localTime <- LocalTime.now[IO]
-       value = localTime.show
+       ldt <- LocalTime.toLocalDateTime[IO](lt)
+       value = now.show
+       seen = ldt.show
     }yield assert(value == seen)
   }
 }

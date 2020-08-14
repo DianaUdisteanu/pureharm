@@ -15,6 +15,9 @@ object LocalTime {
   def toOffsetDateTime[F[_] :Sync](localTime: jt.LocalTime)(implicit config: TimeConfiguration) : F[jt.OffsetDateTime] =
     Sync[F].delay(localTime.atDate(jt.LocalDate.now()).atZone(config.zoneId).toOffsetDateTime)
 
+  def toLocalDateTime[F[_] : Sync](localTime: jt.LocalTime) : F[jt.LocalDateTime] =
+    Sync[F].delay(localTime.atDate(jt.LocalDate.now()))
+
   implicit val localTimeEq : cats.Eq[jt.LocalTime] = cats.Eq.fromUniversalEquals[jt.LocalTime]
 
   implicit val localTimeOrder : cats.Order[jt.LocalTime] = cats.Order.fromComparable[jt.LocalTime]
