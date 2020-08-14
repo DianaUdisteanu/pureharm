@@ -4,7 +4,6 @@ import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
 import busymachines.pureharm.testkit.PureharmTest
 import busymachines.pureharm.time.implicits._
-
 import scala.concurrent.duration._
 
 class OffsetDateTimeTest extends PureharmTest {

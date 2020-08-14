@@ -3,6 +3,8 @@ import java.{time => jt}
 
 import busymachines.pureharm.effects._
 
+import scala.concurrent.duration.Duration
+
 object LocalDateTime {
 
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.LocalDateTime] =
@@ -10,6 +12,9 @@ object LocalDateTime {
 
   def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalDateTime] =
     ApplicativeAttempt[F].catchNonFatal(jt.LocalDateTime.parse(s, config.localDateTimeFormat))
+
+  def addFiniteDuration[F[_] : Sync](duration: Duration, localDateTime: jt.LocalDateTime) : F[jt.LocalDateTime] =
+    Sync[F].delay(localDateTime.plusNanos(duration.toNanos))
 
   def toOffsetDateTime[F[_] : Sync](localDateTime: jt.LocalDateTime)(implicit config: TimeConfiguration): F[jt.OffsetDateTime] =
     Sync[F].delay(localDateTime.atZone(config.zoneId).toOffsetDateTime)

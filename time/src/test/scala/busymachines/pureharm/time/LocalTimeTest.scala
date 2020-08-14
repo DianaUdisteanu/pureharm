@@ -1,10 +1,11 @@
 package busymachines.pureharm.time
 
-
 import busymachines.pureharm.effects._
 import busymachines.pureharm.effects.implicits._
 import busymachines.pureharm.testkit._
 import busymachines.pureharm.time.implicits._
+
+import scala.concurrent.duration.Duration
 
 class LocalTimeTest extends PureharmTest {
 
@@ -23,5 +24,14 @@ class LocalTimeTest extends PureharmTest {
       lt <- LocalTime.parse[IO](value)
       seen = lt.show
     } yield assert(value == seen)
+  }
+
+  test("LocalTime - add finite duration") {
+    for {
+      now <- LocalTime.now[IO]
+      finite <- LocalTime.addFiniteDuration[IO](Duration("3 hours"), now)
+      value = now.show
+      seen = finite.show
+    } yield assert(value < seen)
   }
 }
