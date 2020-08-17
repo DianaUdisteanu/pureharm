@@ -8,8 +8,9 @@ object OffsetDateTime {
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.OffsetDateTime] =
     Sync[F].delay(jt.OffsetDateTime.now(config.zoneId))
 
-  def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.OffsetDateTime] =
-    ApplicativeAttempt[F].catchNonFatal(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))
+  def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.OffsetDateTime] =
+    AT.adaptError(
+      AT.pure(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
 
   def addFiniteDuration[F[_] : Sync](duration: Duration, offsetDateTime: jt.OffsetDateTime) : F[jt.OffsetDateTime] =
     Sync[F].delay(offsetDateTime.plusNanos(duration.toNanos))

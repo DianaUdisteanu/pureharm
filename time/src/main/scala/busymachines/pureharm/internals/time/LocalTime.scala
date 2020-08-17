@@ -11,8 +11,9 @@ object LocalTime {
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.LocalTime] =
     Sync[F].delay(jt.LocalTime.now(config.zoneId))
 
-  def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalTime] =
-    ApplicativeAttempt[F].catchNonFatal(jt.LocalTime.parse(s, config.localTimeFormat))
+  def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.LocalTime] =
+    AT.adaptError(
+      AT.pure(jt.LocalTime.parse(s, config.localTimeFormat))) { case e => TimeFormatAnomaly(s) }
 
   def addFiniteDuration[F[_] : Sync](duration: Duration, localTime: jt.LocalTime) : F[jt.LocalTime] =
     Sync[F].delay(localTime.plusNanos(duration.toNanos))

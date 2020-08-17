@@ -8,8 +8,9 @@ object LocalDate {
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.LocalDate] =
     Sync[F].delay(jt.LocalDate.now(config.zoneId))
 
-  def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalDate] =
-    ApplicativeAttempt[F].catchNonFatal(jt.LocalDate.parse(s, config.localDateFormat))
+  def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.LocalDate] =
+    AT.adaptError(
+      AT.pure(jt.LocalDate.parse(s, config.localDateFormat))) { case e => TimeFormatAnomaly(s) }
 
   def toLocalDateTime[F[_] : Sync](localDate: jt.LocalDate): F[jt.LocalDateTime] =
     Sync[F].delay(localDate.atTime(jt.LocalTime.now()))

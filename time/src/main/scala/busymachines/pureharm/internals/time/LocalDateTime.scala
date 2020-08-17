@@ -10,8 +10,9 @@ object LocalDateTime {
   def now[F[_] : Sync](implicit config: TimeConfiguration): F[jt.LocalDateTime] =
     Sync[F].delay(jt.LocalDateTime.now(config.zoneId))
 
-  def parse[F[_] : ApplicativeAttempt](s: String)(implicit config: TimeConfiguration): F[jt.LocalDateTime] =
-    ApplicativeAttempt[F].catchNonFatal(jt.LocalDateTime.parse(s, config.localDateTimeFormat))
+  def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.LocalDateTime] =
+    AT.adaptError(
+      AT.pure(jt.LocalDateTime.parse(s, config.localDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
 
   def addFiniteDuration[F[_] : Sync](duration: Duration, localDateTime: jt.LocalDateTime) : F[jt.LocalDateTime] =
     Sync[F].delay(localDateTime.plusNanos(duration.toNanos))
