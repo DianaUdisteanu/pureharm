@@ -10,7 +10,7 @@ object OffsetDateTime {
 
   def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.OffsetDateTime] =
     AT.adaptError(
-      AT.pure(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
+      AT.catchNonFatal(jt.OffsetDateTime.parse(s, config.offsetDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
 
   def addFiniteDuration[F[_] : Sync](duration: Duration, offsetDateTime: jt.OffsetDateTime) : F[jt.OffsetDateTime] =
     Sync[F].delay(offsetDateTime.plusNanos(duration.toNanos))

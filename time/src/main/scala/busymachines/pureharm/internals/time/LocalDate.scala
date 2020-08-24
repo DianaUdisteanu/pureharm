@@ -10,7 +10,7 @@ object LocalDate {
 
   def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.LocalDate] =
     AT.adaptError(
-      AT.pure(jt.LocalDate.parse(s, config.localDateFormat))) { case e => TimeFormatAnomaly(s) }
+      AT.catchNonFatal(jt.LocalDate.parse(s, config.localDateFormat))) { case e => TimeFormatAnomaly(s) }
 
   def toLocalDateTime[F[_] : Sync](localDate: jt.LocalDate): F[jt.LocalDateTime] =
     Sync[F].delay(localDate.atTime(jt.LocalTime.now()))

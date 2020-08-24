@@ -12,7 +12,7 @@ object LocalDateTime {
 
   def parse[F[_]](s: String)(implicit config: TimeConfiguration, AT: ApplicativeAttempt[F]): F[jt.LocalDateTime] =
     AT.adaptError(
-      AT.pure(jt.LocalDateTime.parse(s, config.localDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
+      AT.catchNonFatal(jt.LocalDateTime.parse(s, config.localDateTimeFormat))) { case e => TimeFormatAnomaly(s) }
 
   def addFiniteDuration[F[_] : Sync](duration: Duration, localDateTime: jt.LocalDateTime) : F[jt.LocalDateTime] =
     Sync[F].delay(localDateTime.plusNanos(duration.toNanos))
